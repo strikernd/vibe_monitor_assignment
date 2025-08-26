@@ -25,6 +25,7 @@ compactor:
 
 storage:
   trace:
+    blocklist_poll: 5s
     backend: local
     wal:
       path: /tmp/temp/wal

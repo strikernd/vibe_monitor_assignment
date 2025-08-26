@@ -55,6 +55,7 @@ prometheus.remote_write "default" {
 // Discover Docker containers
 discovery.docker "containers" {
   host = "unix:///var/run/docker.sock"
+  refresh_interval = "5s"
 }
 
 // Relabel: extract container name as a label
@@ -78,6 +79,7 @@ loki.source.docker "containers" {
   host       = "unix:///var/run/docker.sock"
   targets    = discovery.relabel.containers.output
   forward_to = [loki.process.default.receiver]
+  refresh_interval = "5s"
 }
 
 // Process logs: add static and container labels
@@ -98,10 +100,6 @@ loki.write "default" {
     url = "http://loki:3100/loki/api/v1/push"
   }
 }
-
-
-
-
 
 otelcol.exporter.otlp "tempo" {
   client {
